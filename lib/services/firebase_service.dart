@@ -1,5 +1,3 @@
-// services/firebase_service.dart
-
 import 'dart:io';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:firebase_database/firebase_database.dart';

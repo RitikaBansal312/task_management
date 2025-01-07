@@ -1,5 +1,3 @@
-// views/add_task_view.dart
-
 import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
@@ -57,8 +55,7 @@ class _AddTaskViewState extends State<AddTaskView> {
               const SizedBox(height: 20),
               ElevatedButton(
                 onPressed: () {
-                  if (titleController.text.isNotEmpty &&
-                      descriptionController.text.isNotEmpty) {
+                  if (titleController.text.isNotEmpty) {
                     taskController.addTask(
                       titleController.text.trim(),
                       descriptionController.text.trim(),

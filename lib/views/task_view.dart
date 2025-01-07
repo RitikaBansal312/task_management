@@ -1,8 +1,5 @@
-// views/task_view.dart
-
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-// import 'package:flutter_slidable/flutter_slidable.dart';
 import '../controllers/task_controller.dart';
 import 'add_task_view.dart';
 import 'task_detail_view.dart';
@@ -32,7 +29,7 @@ class TaskView extends StatelessWidget {
       ),
       body: Obx(() {
         if (taskController.tasks.isEmpty) {
-          return const Center(child: Text('No tasks available.'));
+          return const Center(child: CircularProgressIndicator(strokeWidth: 2));
         }
         return ListView.builder(
           itemCount: taskController.tasks.length,
@@ -45,54 +42,22 @@ class TaskView extends StatelessWidget {
               },
               background: Container(color: Colors.red),
               child: ListTile(
-                title: Text(task.title),
+                title: Text(
+                  task.title,
+                  style: TextStyle(
+                    decoration:
+                        task.isCompleted ? TextDecoration.lineThrough : null,
+                  ),
+                ),
                 onTap: () => Get.to(() => TaskDetailView(task: task)),
+                leading: Checkbox(
+                  value: task.isCompleted,
+                  onChanged: (value) {
+                    taskController.updateTaskStatus(task.id, value ?? false);
+                  },
+                ),
               ),
             );
-            // return Slidable(
-            //   actionPane: const SlidableDrawerActionPane(),
-            //   actionExtentRatio: 0.25,
-            //   child: ListTile(
-            //     title: Text(
-            //       task.title,
-            //       style: TextStyle(
-            //         decoration:
-            //             task.isCompleted ? TextDecoration.lineThrough : null,
-            //       ),
-            //     ),
-            //     onTap: () => Get.to(() => TaskDetailView(task: task)),
-            //   ),
-            //   secondaryActions: [
-            //     IconSlideAction(
-            //       caption: 'Delete', // Use 'label' instead of 'caption'
-            //       color: Colors.red,
-            //       icon: Icons.delete,
-            //       onTap: () async {
-            //         final shouldDelete = await showDialog<bool>(
-            //           context: context,
-            //           builder: (context) => AlertDialog(
-            //             title: const Text('Delete Task'),
-            //             content: const Text(
-            //                 'Are you sure you want to delete this task?'),
-            //             actions: <Widget>[
-            //               TextButton(
-            //                 onPressed: () => Get.back(result: false),
-            //                 child: const Text('Cancel'),
-            //               ),
-            //               TextButton(
-            //                 onPressed: () => Get.back(result: true),
-            //                 child: const Text('Delete'),
-            //               ),
-            //             ],
-            //           ),
-            //         );
-            //         if (shouldDelete == true) {
-            //           taskController.deleteTask(task.id);
-            //         }
-            //       },
-            //     ),
-            //   ],
-            // );
           },
         );
       }),
