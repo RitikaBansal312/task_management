@@ -19,7 +19,7 @@ class Task {
     return Task(
       id: id,
       title: map['title'] ?? '',
-      description: map['description'] ?? '',
+      description: map['description'].toString(),
       imageUrl: map['imageUrl'] ?? '',
       isCompleted: map['isCompleted'] ?? false,
       createdAt:

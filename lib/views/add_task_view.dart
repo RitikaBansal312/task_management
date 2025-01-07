@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:get/get.dart';
 import '../controllers/task_controller.dart';
+import 'package:flutter_quill/flutter_quill.dart' as quill;
 
 class AddTaskView extends StatefulWidget {
   @override
@@ -11,7 +12,8 @@ class AddTaskView extends StatefulWidget {
 
 class _AddTaskViewState extends State<AddTaskView> {
   final TextEditingController titleController = TextEditingController();
-  final TextEditingController descriptionController = TextEditingController();
+  // final TextEditingController descriptionController = TextEditingController();
+  final quill.QuillController _controller = quill.QuillController.basic();
   final TaskController taskController = Get.find();
   File? _imageFile;
 
@@ -40,12 +42,24 @@ class _AddTaskViewState extends State<AddTaskView> {
                 decoration: const InputDecoration(labelText: 'Task Title'),
               ),
               const SizedBox(height: 10),
-              TextField(
-                controller: descriptionController,
-                decoration:
-                    const InputDecoration(labelText: 'Task Description'),
-                maxLines: 5,
+              Container(
+                child: Column(
+                  children: [
+                    quill.QuillToolbar.simple(controller: _controller),
+                    quill.QuillEditor.basic(
+                      controller: _controller,
+                      scrollController: ScrollController(),
+                      focusNode: FocusNode(),
+                    ),
+                  ],
+                ),
               ),
+              // TextField(
+              //   controller: descriptionController,
+              //   decoration:
+              //       const InputDecoration(labelText: 'Task Description'),
+              //   maxLines: 5,
+              // ),
               const SizedBox(height: 10),
               ElevatedButton(
                 onPressed: _pickImage,
@@ -58,7 +72,7 @@ class _AddTaskViewState extends State<AddTaskView> {
                   if (titleController.text.isNotEmpty) {
                     taskController.addTask(
                       titleController.text.trim(),
-                      descriptionController.text.trim(),
+                      _controller.document.toDelta().toJson().toList(),
                       _imageFile,
                     );
                     Get.back();

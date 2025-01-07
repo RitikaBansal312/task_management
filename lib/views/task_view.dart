@@ -16,14 +16,35 @@ class TaskView extends StatelessWidget {
         title: const Text('Task Manager'),
         actions: [
           // Display version in the app bar
-          Padding(
-            padding: const EdgeInsets.only(right: 16.0),
-            child: Text(
-              taskController.version.isNotEmpty
-                  ? "v${taskController.version}"
-                  : "Loading version...",
-              style: const TextStyle(fontSize: 16),
-            ),
+           FutureBuilder(
+            future: taskController.getAppVersion(),
+            builder: (context, snapshot) {
+              if (snapshot.connectionState == ConnectionState.waiting) {
+                return const Padding(
+                  padding: EdgeInsets.only(right: 16.0),
+                  child: Text(
+                    "Loading version...",
+                    style: TextStyle(fontSize: 16),
+                  ),
+                );
+              } else if (snapshot.hasError) {
+                return const Padding(
+                  padding: EdgeInsets.only(right: 16.0),
+                  child: Text(
+                    "Error loading version",
+                    style: TextStyle(fontSize: 16),
+                  ),
+                );
+              } else {
+                 return Padding(
+                  padding: const EdgeInsets.only(right: 16.0),
+                  child: Text(
+                    "v${taskController.version}",
+                    style: const TextStyle(fontSize: 16),
+                  ),
+                );
+              }
+            },
           ),
         ],
       ),

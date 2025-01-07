@@ -8,18 +8,17 @@ class TaskController extends GetxController {
   final FirebaseService _firebaseService = FirebaseService();
   var tasks = <Task>[].obs;
   String version = "";
-
   @override
   void onInit() {
     super.onInit();
-    getAppVersion();
     fetchTasks();
   }
 
   // Fetch the version dynamically
-  getAppVersion() async {
+  Future getAppVersion() async {
     PackageInfo packageInfo = await PackageInfo.fromPlatform();
-    version = packageInfo.version; // Get the app version
+    version = packageInfo.version;
+    print(version); // Get the app version
     return version;
   }
 
@@ -29,8 +28,7 @@ class TaskController extends GetxController {
     });
   }
 
-  Future<void> addTask(
-      String title, String description, File? imageFile) async {
+  Future<void> addTask(String title, List description, File? imageFile) async {
     String imageUrl = '';
     if (imageFile != null) {
       imageUrl = await _firebaseService.uploadImage(imageFile);
@@ -38,7 +36,7 @@ class TaskController extends GetxController {
     final task = Task(
       id: '',
       title: title,
-      description: description,
+      description: description[0]["insert"].toString(),
       imageUrl: imageUrl,
       createdAt: DateTime.now(),
     );
