@@ -7,7 +7,7 @@ A Flutter-based Task Management application using Firebase for real-time data st
 - **CRUD Operations**: Create, Read, Update, and Delete tasks.
 - **Task Details**: Each task contains a title and a description with support for rich text formatting.
 - **Image Uploads**: Upload images and display them for tasks.
-- **Task Management**: Swipe to delete tasks with confirmation.
+- **Task Management**: Swipe to delete tasks.
 - **Versioning**: Display the app version dynamically in the app bar.
 
 ## Technologies

@@ -36,7 +36,8 @@ class TaskController extends GetxController {
     final task = Task(
       id: '',
       title: title,
-      description: description[0]["insert"].toString(),
+      description: description.map((item) => item['insert'] ?? '').join(),
+      // description[0]["insert"].toString(),
       imageUrl: imageUrl,
       createdAt: DateTime.now(),
     );

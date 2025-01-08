@@ -70,6 +70,11 @@ class _AddTaskViewState extends State<AddTaskView> {
               ElevatedButton(
                 onPressed: () {
                   if (titleController.text.isNotEmpty) {
+                    debugPrint(_controller.document
+                        .toDelta()
+                        .toJson()
+                        .toList()
+                        .toString());
                     taskController.addTask(
                       titleController.text.trim(),
                       _controller.document.toDelta().toJson().toList(),
